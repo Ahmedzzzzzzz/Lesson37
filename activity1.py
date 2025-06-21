@@ -82,7 +82,7 @@ def player (x, y):
 
 def enemy (x, y, i):
 
-    screen.blit(enemyImg[i], x, y)
+    screen.blit(enemyImg[i], (x, y))
 
 def fire_bullet(x, y):
 
@@ -134,11 +134,24 @@ while running:
         if isCollision(enemyX[i], enemyY[i], bulletX, bulletY):
             bulletY = PLAYER_START_Y
             bullet_state = "ready"
-        elif bullet_state == "fire":
-            fire_bullet(bulletX, bulletY)
-            bulletY -= bulletY_change
+            score_value += 1
+            enemyX[i] = random.randint(ENEMY_START_Y_MIN, ENEMY_START_Y_MAX)
 
-        player(playerX, playerY)
-        show_score (textX, textY)
-        pygame.display.update()
-pygame.quit
+        enemy(enemyX[i], enemyY[i], i)
+
+    
+    if bulletY <= 0:
+        bulletY = PLAYER_START_Y
+        bullet_state = "ready"
+
+    elif bullet_state == "fire":
+        fire_bullet(bulletX, bulletY)
+        bulletY -= bulletY_change
+
+
+    player (playerX, playerY)
+    show_score(textX, textY)
+    pygame.display.update()
+pygame.quit()
+
+   
